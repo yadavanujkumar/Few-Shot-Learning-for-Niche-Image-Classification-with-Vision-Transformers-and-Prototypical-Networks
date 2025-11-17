@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  few-shot-api:
+    build: .
+    container_name: few-shot-learning-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./checkpoints:/app/checkpoints
+      - ./mlruns:/app/mlruns
+      - ./mlartifacts:/app/mlartifacts
+    environment:
+      - CONFIG_PATH=configs/config.yaml
+      - CHECKPOINT_PATH=checkpoints/best_model_5way_5shot.pth
+      - PROTOTYPE_PATH=models/prototypes.pkl
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+    restart: unless-stopped
+
+  mlflow-ui:
+    image: python:3.9-slim
+    container_name: mlflow-ui
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/mlruns
+      - ./mlartifacts:/mlartifacts
+    command: >
+      sh -c "pip install mlflow && 
+             mlflow ui --host 0.0.0.0 --backend-store-uri /mlruns"
+    restart: unless-stopped
