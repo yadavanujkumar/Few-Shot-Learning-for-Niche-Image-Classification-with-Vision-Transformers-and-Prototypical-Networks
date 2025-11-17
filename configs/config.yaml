@@ -1,0 +1,47 @@
+model:
+  feature_extractor: "google/vit-base-patch16-224"  # Vision Transformer model
+  embedding_dim: 768
+  freeze_backbone: true  # Set to false for fine-tuning
+
+training:
+  num_episodes: 10000
+  n_way: 5  # Number of classes per episode
+  k_shot: 5  # Number of support examples per class
+  n_query: 15  # Number of query examples per class
+  learning_rate: 0.001
+  optimizer: "adam"
+  scheduler: "step"
+  step_size: 2000
+  gamma: 0.5
+
+dataset:
+  name: "mini-imagenet"
+  root: "./data"
+  image_size: 224
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+
+augmentation:
+  random_flip: true
+  random_rotation: 10
+  random_crop: true
+  color_jitter: true
+  normalize: true
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+
+evaluation:
+  n_way_eval: [5]
+  k_shot_eval: [1, 5]
+  num_eval_episodes: 600
+
+mlflow:
+  experiment_name: "few-shot-learning-vit"
+  tracking_uri: "./mlruns"
+  artifact_location: "./mlartifacts"
+
+deployment:
+  api_port: 8000
+  max_registered_classes: 100
+  prototype_storage: "./models/prototypes.pkl"
