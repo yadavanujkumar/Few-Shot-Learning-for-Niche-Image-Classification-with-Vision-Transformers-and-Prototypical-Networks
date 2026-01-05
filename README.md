@@ -353,17 +353,9 @@ docker run -p 8000:8000 \
 - [x] Grad-CAM for interpretability
 - [x] FastAPI inference pipeline with class registration
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-- Vision Transformer implementation from Hugging Face Transformers
 - Prototypical Networks paper: [Snell et al., 2017](https://arxiv.org/abs/1703.05175)
 - Mini-ImageNet dataset for few-shot learning benchmarks
 
